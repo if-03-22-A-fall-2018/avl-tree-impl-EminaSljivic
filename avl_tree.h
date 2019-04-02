@@ -16,7 +16,7 @@ int 	get_balance (Node node);
 
 void 	print_postorder (Node node);
 
-void 	unbalanced_insert (Node root, int key);
+Node 	unbalanced_insert (Node root, int key);
 
 int max (int n1, int n2);
 

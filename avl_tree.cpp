@@ -3,8 +3,7 @@
 
 Node insert(Node node, int key){
     if (node == 0){
-        Node newBst= create_node(int key);
-        node = newBst;
+        node = create_node(key);
     }
 
     if (key < get_key(node)){
@@ -43,6 +42,22 @@ Node insert(Node node, int key){
     return node;
 }
 
+
+int get_depth(Node bst){
+  if (bst==0)
+       return 0;
+   else
+   {
+       int lDepth = get_depth(bst->left);
+       int rDepth = get_depth(bst->right);
+       if (lDepth > rDepth)
+           return(lDepth+1);
+       else
+           return(rDepth+1);
+   }
+}
+
+
 Node rotate_left(Node node){
     if (node == 0){
         return 0;
@@ -60,13 +75,13 @@ Node rotate_left(Node node){
     return r;
 }
 
-Node rotate_left(Node node){
+Node rotate_right(Node node){
     if (node == 0){
         return 0;
     }
 
-    Node l = get_left(r);
-    Node r = get_right(node);
+    Node l = get_left(node);
+    Node r = get_right(l);
 
     set_right(node, l);
     set_left(r, node);
@@ -76,19 +91,39 @@ Node rotate_left(Node node){
     return l;
 }
 
-int 	get_balance(Node node);
-
-void 	print_postorder (Node node){
-  if(bst==0)
+int 	get_balance(Node node){
+  if(node->left==0 || node->right)
   {
     return 0;
   }
-  print_postorder(node->left);
-  print_postorder(node->right);
-  printf("%d, ", node->data);
+  return (get_depth(node->left)+1-get_depth(node->right));
 }
 
-void 	unbalanced_insert (Node root, int key);
+void 	print_postorder (Node node){
+  if(node==0)
+  {
+    return;
+  }
+  print_postorder(node->left);
+  print_postorder(node->right);
+  printf("%d, ", node->key);
+}
+
+Node 	unbalanced_insert (Node root, int key){
+  if(root == 0)
+  {
+    return root = create_node(key);
+  }
+  else if(key < root->key)
+  {
+    root->left =  unbalanced_insert(root->left, key);
+  }
+  else if(key > root->key)
+  {
+    root->right = unbalanced_insert(root->right, key);
+  }
+  return root;
+}
 
 int max (int n1, int n2){
   if(n1<n2)
